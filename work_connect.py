@@ -1,65 +1,104 @@
-# Script Name		: work_connect.py
-# Author				: Craig Richards
-# Created				: 11th May 2012
-# Last Modified		: 31st October 2012
-# Version				: 1.1
+import os
+import subprocess
+import sys
+import time
+import platform
+import getpass
+import logging
 
-# Modifications		: 1.1 - CR - Added some extra code, to check an argument is passed to the script first of all, then check it's a valid input
+# Set up logging
+logging.basicConfig(filename='script.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
-# Description			: This simple script loads everything I need to connect to work etc
+# Help text to display if no or invalid arguments are provided
+help_text = """You need to pass an argument:
+    -c              to connect to the remote desktop
+    -d              to disconnect from the remote session
+    -cal            to open Calculator
+    -paint          to open MS Paint
+    -rdp            to open Remote Desktop"""
 
-import os  # Load the Library Module
-import subprocess  # Load the Library Module
-import sys  # Load the Library Module
-import time  # Load the Library Module
+# Check if at least one argument is passed to the script
+if len(sys.argv) < 2:
+    print(help_text)
+    sys.exit(1)
 
-dropbox = os.getenv(
-    "dropbox"
-)  # Set the variable dropbox, by getting the values of the environment setting for dropbox
-rdpfile = "remote\\workpc.rdp"  # Set the variable logfile, using the arguments passed to create the logfile
-conffilename = os.path.join(
-    dropbox, rdpfile
-)  # Set the variable conffilename by joining confdir and conffile together
-remote = (
-    r"c:\windows\system32\mstsc.exe "  # Set the variable remote with the path to mstsc
-)
+# Function to connect
+def connect():
+    try:
+        # Placeholder for connecting to remote desktop
+        logging.info("Connecting to remote desktop...")
+        print("Connecting to remote desktop...")
+        # Example: subprocess.Popen(["your_command_here"])
+    except Exception as e:
+        logging.error(f"Failed to connect: {e}")
+        print(f"Failed to connect: {e}")
+        sys.exit(1)
 
-text = """You need to pass an argument
-	-c Followed by login password to connect
-	-d to disconnect"""  # Text to display if there is no argument passed or it's an invalid option - 1.2
+# Function to disconnect
+def disconnect():
+    try:
+        # Placeholder for disconnecting from remote session
+        logging.info("Disconnecting from remote session...")
+        print("Disconnecting from remote session...")
+        # Example: subprocess.Popen(["your_command_here"])
+    except Exception as e:
+        logging.error(f"Failed to disconnect: {e}")
+        print(f"Failed to disconnect: {e}")
+        sys.exit(1)
 
-if len(sys.argv) < 2:  # Check there is at least one option passed to the script - 1.2
-    print(text)  # If not print the text above - 1.2
-    sys.exit()  # Exit the program - 1.2
+# Function to open Calculator
+def open_calculator():
+    try:
+        subprocess.Popen(["calc.exe"])
+    except Exception as e:
+        logging.error(f"Failed to open Calculator: {e}")
+        print(f"Failed to open Calculator: {e}")
+        sys.exit(1)
 
-if (
-    "-h" in sys.argv or "--h" in sys.argv or "-help" in sys.argv or "--help" in sys.argv
-):  # Help Menu if called
-    print(text)  # Print the text, stored in the text variable - 1.2
-    sys.exit(0)  # Exit the program
+# Function to open MS Paint
+def open_paint():
+    try:
+        subprocess.Popen(["mspaint.exe"])
+    except Exception as e:
+        logging.error(f"Failed to open MS Paint: {e}")
+        print(f"Failed to open MS Paint: {e}")
+        sys.exit(1)
+
+# Function to open Remote Desktop
+def open_rdp():
+    try:
+        subprocess.Popen(["mstsc.exe"])
+    except Exception as e:
+        logging.error(f"Failed to open Remote Desktop: {e}")
+        print(f"Failed to open Remote Desktop: {e}")
+        sys.exit(1)
+
+# Function to get user confirmation
+def get_confirmation():
+    try:
+        confirmation = input("Are you sure you want to continue? (y/n): ").strip().lower()
+        if confirmation != 'y':
+            logging.info("Operation cancelled by user.")
+            print("Operation cancelled by user.")
+            sys.exit(0)
+    except KeyboardInterrupt:
+        logging.info("Operation cancelled by user.")
+        print("\nOperation cancelled by user.")
+        sys.exit(0)
+
+# Process the command line arguments
+if sys.argv[1].lower() == "-c":
+    get_confirmation()
+    connect()
+elif sys.argv[1].lower() == "-d":
+    get_confirmation()
+    disconnect()
+elif sys.argv[1].lower() == "-cal":
+    open_calculator()
+elif sys.argv[1].lower() == "-paint":
+    open_paint()
+elif sys.argv[1].lower() == "-rdp":
+    open_rdp()
 else:
-    if sys.argv[1].lower().startswith("-c"):  # If the first argument is -c then
-        passwd = sys.argv[
-            2
-        ]  # Set the variable passwd as the second argument passed, in this case my login password
-        subprocess.Popen(
-            (
-                r"c:\Program Files\Checkpoint\Endpoint Connect\trac.exe connect -u username -p "
-                + passwd
-            )
-        )
-        subprocess.Popen((r"c:\geektools\puttycm.exe"))
-        time.sleep(
-            15
-        )  # Sleep for 15 seconds, so the checkpoint software can connect before opening mstsc
-        subprocess.Popen([remote, conffilename])
-    elif (
-        sys.argv[1].lower().startswith("-d")
-    ):  # If the first argument is -d then disconnect my checkpoint session.
-        subprocess.Popen(
-            (r"c:\Program Files\Checkpoint\Endpoint Connect\trac.exe disconnect ")
-        )
-    else:
-        print(
-            "Unknown option - " + text
-        )  # If any other option is passed, then print Unknown option and the text from above - 1.2
+    print(f"Unknown option - {help_text}")
+    sys.exit(1)
