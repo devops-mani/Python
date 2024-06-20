@@ -25,3 +25,18 @@ rotated_array = array[d:] + array[:d]
 
 # Print the result
 print("Rotated Array:", rotated_array)
+
+
+###
+Usage Example:
+text
+Copy code
+Enter the size of the array: 5
+Enter integer number 1: 10
+Enter integer number 2: 20
+Enter integer number 3: 30
+Enter integer number 4: 40
+Enter integer number 5: 50
+Enter the number of times you want to rotate the array: 2
+Rotated Array: [30, 40, 50, 10, 20]
+###
