@@ -87,22 +87,14 @@ elif args.command == 'delete':
 """
 Usage:
 Adding a task:
-
-csharp
-Copy code
 python task_manager.py add --title "Complete project" --description "Finish project report" --due-date 2024-07-01
+
 Listing tasks:
-
-Copy code
 python task_manager.py list
+
 Completing a task:
-
-css
-Copy code
 python task_manager.py complete --index 1
-Deleting a task:
 
-perl
-Copy code
+Deleting a task:
 python task_manager.py delete --index 1
 """
