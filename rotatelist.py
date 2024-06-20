@@ -27,7 +27,7 @@ rotated_array = array[d:] + array[:d]
 print("Rotated Array:", rotated_array)
 
 
-###
+"""
 Usage Example:
 text
 Copy code
@@ -39,4 +39,4 @@ Enter integer number 4: 40
 Enter integer number 5: 50
 Enter the number of times you want to rotate the array: 2
 Rotated Array: [30, 40, 50, 10, 20]
-###
+"""
