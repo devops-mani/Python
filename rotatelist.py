@@ -1,20 +1,27 @@
-N = int(input("Enter The Size Of Array"))
-list = []
-for i in range(0, N):
-    temp = int(input("Enter The Intger Numbers"))
-    list.append(temp)
+def get_integer_input(prompt):
+    """ Helper function to get integer input from the user """
+    while True:
+        try:
+            return int(input(prompt))
+        except ValueError:
+            print("Please enter a valid integer.")
 
+# Get the size of the array
+N = get_integer_input("Enter the size of the array: ")
 
-# Rotating Arrays Using Best Way:
-# Left Rotation Of The List.
-# Let's say we want to print list after its d number of rotations.
+# Get the elements of the array
+array = []
+for i in range(N):
+    array.append(get_integer_input(f"Enter integer number {i + 1}: "))
 
-finalList = []
-d = int(input("Enter The Number Of Times You Want To Rotate The Array"))
+# Get the number of rotations
+d = get_integer_input("Enter the number of times you want to rotate the array: ")
 
-for i in range(0, N):
-    finalList.append(list[(i + d) % N])
+# Normalize d to be within the range of 0 to N-1
+d = d % N
 
-print(finalList)
+# Rotate the array to the left by d positions
+rotated_array = array[d:] + array[:d]
 
-# This Method holds the timeComplexity of O(N) and Space Complexity of O(N)
+# Print the result
+print("Rotated Array:", rotated_array)
